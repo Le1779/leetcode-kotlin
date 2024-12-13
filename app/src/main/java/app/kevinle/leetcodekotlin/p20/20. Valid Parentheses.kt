@@ -7,38 +7,18 @@ import java.util.ArrayDeque
 class Solution {
     fun isValid(s: String): Boolean {
         val stack = ArrayDeque<Char>()
-
         for (c in s) {
-            if (c == ')' || c == ']' || c == '}') {
-                val openedSymbol = getOpenedSymbol(c)
-                var isClosed = false
-                while (stack.isNotEmpty()) {
-                    val top = stack.removeFirst()
-                    if (top != openedSymbol) {
-                        return false
-                    } else {
-                        isClosed = true
-                        break
-                    }
-                }
-
-                if (!isClosed) {
-                    return false
-                }
-            } else {
-                stack.addFirst(c)
+            if (c == '(') {
+                stack.addFirst(')')
+            } else if (c == '[') {
+                stack.addFirst(']')
+            } else if (c == '{') {
+                stack.addFirst('}')
+            } else if (stack.isEmpty() || stack.removeFirst() != c) {
+                return false
             }
         }
 
         return stack.isEmpty()
-    }
-
-    private fun getOpenedSymbol(openSymbol: Char): Char {
-        return when (openSymbol) {
-            ')' -> '('
-            ']' -> '['
-            '}' -> '{'
-            else -> ' '
-        }
     }
 }
